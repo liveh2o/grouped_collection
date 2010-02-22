@@ -1,0 +1,53 @@
+GroupedCollection
+=================
+
+GroupedCollection groups records by any (single) attribute (think SQL's
+'group by' clause). It's hooked into ActiveRecord's AssociationCollection,
+allowing you to use it with any AR association and even chain it to named
+scopes (e.g. @project.tasks and/or @projects.tasks.completed).
+
+
+Example
+=======
+
+To group records, simply call 'group_by' for any collection or records, passing
+it the attribute you want to group them by:
+
+    grouped_tasks = @project.tasks.group_by(:type)
+
+What you get back is an array of GroupedCollection objects, which have two
+attributes: association and collection. Association contains the object the
+records were grouped by (e.g. Type) and collection returns the grouped records.
+GroupedCollection.collection is also aliased as the table name of the records
+being grouped, in this case, tasks:
+
+    @grouped_tasks.each do |group|
+        group.tasks.each do |task|
+            # Do something here...
+        end
+    end
+
+GroupedCollection also passes any methods accepted by the association object
+(e.g. type) on to the object. This means if the object has a name attribute,
+calling:
+
+    @group.name
+
+is the same as calling:
+
+    @group.association.name
+
+group_by takes an attribute name and a hash of options as parameters. Supported
+options include:
+
+    :key - If set, it overrides the default which is to append _id to the
+    attribute parameter.
+    :sort - The attribute to use to sort the records before they are grouped.
+    If not set, records aren't sorted
+    :group_sort - How the groups should be sorted. Tries to sort by 'name' by
+    default.
+
+GOTCHA: group_by only works on AR AssociationCollections (e.g. @project.tasks);
+it doesn't work with find or all.
+
+Copyright (c) 2010 Adam Hutchison, released under the MIT license
