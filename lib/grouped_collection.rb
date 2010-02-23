@@ -42,7 +42,7 @@ module AssociationCollection
     end
   end
   
-  :group_by
+  alias :grouped_by :group_by
 end
 
 ActiveRecord::Associations::AssociationCollection.send(:include,AssociationCollection)

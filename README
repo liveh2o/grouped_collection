@@ -3,8 +3,8 @@ GroupedCollection
 
 GroupedCollection groups records by any (single) attribute (think SQL's
 'group by' clause). It's hooked into ActiveRecord's AssociationCollection,
-allowing you to use it with any AR association and even chain it to named
-scopes (e.g. @project.tasks and/or @projects.tasks.completed).
+so you can to use it with any AR association and even chain it to named
+scopes (e.g. @project.tasks or @projects.tasks.completed).
 
 
 Example
@@ -31,11 +31,11 @@ GroupedCollection also passes any methods accepted by the association object
 (e.g. type) on to the object. This means if the object has a name attribute,
 calling:
 
-    @group.name
+    group.name
 
 is the same as calling:
 
-    @group.association.name
+    group.association.name
 
 group_by takes an attribute name and a hash of options as parameters. Supported
 options include:
